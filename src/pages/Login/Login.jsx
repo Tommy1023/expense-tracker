@@ -5,6 +5,8 @@ import { ErrorMessage } from '@hookform/error-message';
 import shallow from 'zustand/shallow';
 import useStore from '../../store';
 import PasswordSwitch from '../../components/PasswordSwitch';
+import { socialMediaLoginConfirm, toastHelper } from '../../helpers/swalHelper';
+import lineLoginBtn from '../../assets/images/btn_login.png';
 
 const Login = () => {
   const {
@@ -12,6 +14,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const { onLogin, passwordHide, setPasswordHide } = useStore((state) => {
     return {
       onLogin: state.onLogin,
@@ -22,6 +25,18 @@ const Login = () => {
 
   const atSubmit = (data) => {
     onLogin(data.email, data.password);
+  };
+
+  const socialMediaLogin = (socialMedial) => {
+    socialMediaLoginConfirm().then((result) => {
+      if (result.isConfirmed) {
+        return window.open(
+          `${process.env.REACT_APP_API_URL}/socialMediaAuth/${socialMedial}`,
+          '_self',
+        );
+      }
+      return toastHelper('取消登入', 'info');
+    });
   };
 
   return (
@@ -75,16 +90,21 @@ const Login = () => {
       <div className="mt-3 flex flex-col justify-evenly px-2 md:flex-row md:px-0">
         <button
           type="submit"
-          className="my-1 w-full rounded-md  bg-primary p-2  text-white md:w-[30%]"
+          className="my-1 w-full rounded-md bg-primary p-2 text-center text-lg text-white md:w-[30%]"
         >
-          登入
+          一般登入
         </button>
-        <button className="my-1 w-full rounded-md  bg-[#4267B2] p-2 text-white md:w-[30%]">
-          Facebook 登入
-        </button>
-        <button className="my-1 w-full rounded-md  bg-[#06c755] p-2 text-white md:w-[30%]">
-          Line 登入
-        </button>
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => {
+            socialMediaLogin('line');
+          }}
+          className="my-1 flex w-full rounded-md bg-[#06c755] p-2 text-center text-lg text-white md:w-[30%]"
+        >
+          <img src={lineLoginBtn} alt="lineLogin" className="h-[30px]" />
+          <p className="w-full">Line 登入</p>
+        </div>
       </div>
       <Link
         to="/user/register"

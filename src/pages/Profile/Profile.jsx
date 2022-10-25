@@ -9,23 +9,17 @@ const Profile = () => {
   const [isDisable, setIsDisable] = React.useState(true);
   const [changePassword, setChangePassword] = React.useState(false);
   const [Switch, setSwitch] = React.useState(true);
-  const {
-    loading,
-    user,
-    updateUser,
-    passwordHide,
-    setPasswordHide,
-    getRecords,
-  } = useStore((state) => {
-    return {
-      loading: state.loading,
-      user: state.user,
-      updateUser: state.updateUser,
-      passwordHide: state.passwordHide,
-      setPasswordHide: state.setPasswordHide,
-      getRecords: state.getRecords,
-    };
-  });
+  const { loading, user, updateUser, passwordHide, setPasswordHide, onLogout } =
+    useStore((state) => {
+      return {
+        loading: state.loading,
+        user: state.user,
+        updateUser: state.updateUser,
+        passwordHide: state.passwordHide,
+        setPasswordHide: state.setPasswordHide,
+        onLogout: state.onLogout,
+      };
+    });
   const {
     register,
     handleSubmit,
@@ -38,16 +32,13 @@ const Profile = () => {
       userEmail: user.email,
     },
   });
-  React.useEffect(() => {
-    getRecords();
-  }, []);//eslint-disable-line
 
   const atSubmit = (data) => {
     if (loading) return;
     updateUser(user.id, data)
       .then((res) => {
         if (res.data?.status === 'success') {
-          console.log('postNewProduct res:', res);
+          onLogout();
         }
       })
       .catch((err) => console.log('postNewProduct error:', err));

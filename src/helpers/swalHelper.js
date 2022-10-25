@@ -34,3 +34,15 @@ export const deleteConfirm = () => {
     confirmButtonText: '刪除!',
   });
 };
+
+export const socialMediaLoginConfirm = () => {
+  return MySwal.fire({
+    title: '個資取得授權',
+    text: '使用第三方登入時會向第三方平台取得您的 email 及公開的個資，此資料僅用於註冊會員資料使用。',
+    icon: 'info',
+    showCancelButton: true,
+    confirmButtonColor: '#06c755',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '同意',
+  });
+};

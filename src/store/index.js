@@ -7,6 +7,8 @@ import {
   verifyToken,
   fetchRegister,
   fetchLogin,
+  fetchSocialMediaLogin,
+  fetchLogout,
   fetchAllUsers,
   fetchPutUser,
   fetchDeleteUser,
@@ -29,6 +31,7 @@ import {
 const initialState = {
   isAppInitializedComplete: false,
   loading: false,
+  isSocialMediaLogin: true,
   actionSuccess: false,
   passwordHide: true,
   user: null,
@@ -87,7 +90,7 @@ const useStore = create((set) => {
         });
     },
     onLogin(email, password) {
-      set({ loading: true });
+      set({ loading: true, isSocialMediaLogin: false });
       fetchLogin(email, password)
         .then((res) => {
           const { response, data, status } = res;
@@ -112,9 +115,21 @@ const useStore = create((set) => {
     setPasswordHide(prev) {
       set({ passwordHide: !prev });
     },
+    onSocialMediaLogin() {
+      set({ loading: true });
+      fetchSocialMediaLogin()
+        .then((res) => {
+          if (res.data.user) set({ user: res.data?.user, loading: false });
+        })
+        .catch((err) => {
+          console.log('onSocialMediaLogin error:', err);
+        })
+        .finally(() => set({ loading: false }));
+    },
     onLogout() {
       cleanToken();
-      window.location.reload();
+      fetchLogout();
+      set({ user: null });
     },
     getAllUsers() {
       set({ loading: true });
@@ -130,7 +145,7 @@ const useStore = create((set) => {
     },
     updateUser(uid, newUserData) {
       set({ loading: true });
-      fetchPutUser(uid, newUserData)
+      return fetchPutUser(uid, newUserData)
         .then((res) => {
           if (res.data?.status === 'success') {
             set({ loading: false });
@@ -139,7 +154,6 @@ const useStore = create((set) => {
               cleanToken();
             }
             console.log('fetchPutUser success:', res);
-            window.location.reload();
             return res;
           }
           console.log('fetchPutUser error:', res);
@@ -212,7 +226,7 @@ const useStore = create((set) => {
           });
           set({ records, loading: false });
         })
-        .catch((err) => console.log('getRecord error:', err))
+        .catch((err) => console.log('getRecords error:', err))
         .finally(() => set({ loading: false }));
     },
     getRecord(rid) {

@@ -5,6 +5,7 @@ const JWT_TOKEN = 'JWT_TOKEN';
 const baseURL = process.env.REACT_APP_API_URL;
 const apiHelper = axios.create({
   baseURL,
+  withCredentials: true,
 });
 
 // auth api
@@ -64,6 +65,27 @@ export const fetchLogin = (email, password) => {
     .catch((err) => {
       return err;
     });
+};
+export const fetchSocialMediaLogin = () => {
+  return axios
+    .get(`${baseURL}/socialMediaAuth/login/success`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      if (res.status === 200) return res;
+      throw new Error('authentication has been failed!');
+    })
+    .catch((err) => console.log('fetchSocialMediaLogin error:', err));
+};
+export const fetchLogout = () => {
+  return axios
+    .get(`${baseURL}/socialMediaAuth/logout`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => console.log('fetchLogout error:', err));
 };
 export const fetchAllUsers = () => {
   return apiHelper

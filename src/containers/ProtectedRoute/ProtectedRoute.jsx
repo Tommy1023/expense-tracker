@@ -9,11 +9,22 @@ const ProtectedRoute = (props) => {
   const navigate = useNavigate();
   const { children } = props;
 
-  const { user } = useStore((state) => {
+  const { user, onSocialMediaLogin, isSocialMediaLogin } = useStore((state) => {
     return {
       user: state.user,
+      onSocialMediaLogin: state.onSocialMediaLogin,
+      isSocialMediaLogin: state.isSocialMediaLogin,
     };
   }, shallow);
+
+  React.useEffect(() => {
+    if (isSocialMediaLogin) onSocialMediaLogin();
+    if (user) {
+      setTimeout(() => {
+        toastHelper('登入成功!', 'success', { position: 'top' });
+      }, 500);
+    }
+  }, []);//eslint-disable-line
 
   if (!user) {
     setTimeout(() => {
