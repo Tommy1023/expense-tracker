@@ -10,7 +10,8 @@
 
 使用者
 
-- 登入 / 註冊 / 登出 (尚未實作第三方登入)
+- 登入 / 註冊 / 登出
+- Line 第三方登入
 - 修改登入帳號及密碼
 - 新增 / 瀏覽 / 修改 / 刪除個人記錄
 - 瀏覽近十筆出貨、存貨及銷售記錄趨勢圖
@@ -45,7 +46,6 @@ npm install
 #### 3. 設置環境變數
 
 ```
-PUBLIC_URL = '/expense-tracker'
 REACT_APP_API_URL = 'http://http://localhost:3000/api' (backend api base url)
 ```
 
@@ -57,12 +57,14 @@ npm start
 
 ### Demo
 
-[測試網頁：https://locking751023.github.io/expense-tracker-demo/](https://locking751023.github.io/expense-tracker-demo/)
+[https://expense-tracker.up.railway.app](http://bit.ly/3JDwVHZ)
 
 admin 測試帳號
+
 帳號：root@example.com, 密碼：00000000
 
 user 測試帳號
+
 帳號：user1@example.com, 密碼：11111111
 
 帳號：user2@example.com, 密碼：22222222
