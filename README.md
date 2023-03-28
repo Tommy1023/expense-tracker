@@ -46,7 +46,7 @@ npm install
 #### 3. 設置環境變數
 
 ```
-REACT_APP_API_URL = 'http://http://localhost:3000/api' (backend api base url)
+REACT_APP_API_URL = 'http://localhost:3000/api' (backend api base url)
 ```
 
 #### 4. 啟動專案
@@ -57,7 +57,7 @@ npm start
 
 ### Demo
 
-[https://expense-tracker.up.railway.app](http://bit.ly/3JDwVHZ)
+[https://tommy1023.github.io/expense-tracker](http://bit.ly/3JDwVHZ)
 
 admin 測試帳號
 
